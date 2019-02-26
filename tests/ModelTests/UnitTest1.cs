@@ -65,6 +65,26 @@ namespace GameOfLife.Tests.ModelTests
         }
 
         [TestMethod]
+        public void Pos1x2Has3Neigbours()
+        {
+            IEnumerable<Tuple<int, int>> initState = new List<Tuple<int, int>>()
+            {
+                new Tuple<int, int>(2,1),
+                new Tuple<int, int>(2,2),
+                new Tuple<int, int>(2,3)
+            };
+
+            board.Initialize(initState);
+            var expectedValue = 3;
+
+            var actual = board.NumberOfNeighbours(1, 2);
+
+            Assert.AreEqual(expectedValue, actual);
+
+
+        }
+
+        [TestMethod]
         public void Pos0x0Has1Neigbours()
         {
             IEnumerable<Tuple<int, int>> initState = new List<Tuple<int, int>>()

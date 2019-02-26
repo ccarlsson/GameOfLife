@@ -21,7 +21,31 @@ namespace GameOfLife.Model
 
         public bool At(int x, int y) => _board[ y * _width + x ];
 
-        
+        public void Tick()
+        {
+            var nextBoard = new bool[_board.Length];
+            _board.CopyTo(nextBoard, 0);
+
+            for (int x = 0; x < _width; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    if(NumberOfNeighbours(x,y) < 2)
+                    {
+                        nextBoard[y * _width + x] = false;
+                    }
+                    if(NumberOfNeighbours(x,y) > 3)
+                    {
+                        nextBoard[y * _width + x] = false;
+                    }
+                    if(NumberOfNeighbours(x,y) == 3)
+                    {
+                        nextBoard[y * _width + x] = true;
+                    }
+                }
+            }
+            _board = nextBoard;
+        }
 
         public int NumberOfNeighbours(int x, int y) 
         {
@@ -30,16 +54,16 @@ namespace GameOfLife.Model
 
             if (y > 0 && At(x, y - 1)) count++;
 
-            if (x < _width && y > 0 && At(x + 1, y - 1)) count++;
+            if (x + 1 < _width && y > 0 && At(x + 1, y - 1)) count++;
 
             if (x > 0 && At(x - 1, y)) count++;
 
-            if (x < _width && At(x + 1, y)) count++;
+            if (x + 1 < _width && At(x + 1, y)) count++;
 
-            if (x > 0 && y < _height && At(x - 1, y + 1)) count++;
+            if (x > 0 && y  + 1 < _height && At(x - 1, y + 1)) count++;
 
-            if (y < _height && At(x, y + 1)) count++;
-            if (x < _width && y < _height && At(x + 1, y + 1)) count++;
+            if (y + 1 < _height && At(x, y + 1)) count++;
+            if (x + 1 < _width && y + 1 < _height && At(x + 1, y + 1)) count++;
 
             return count;
         }
